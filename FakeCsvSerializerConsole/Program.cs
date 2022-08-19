@@ -1,9 +1,10 @@
-﻿using FakeCsvSerializer;
-using Bogus;
+﻿using Bogus;
+using FakeCsvSerializer;
+using System.Diagnostics;
 using System.Globalization;
-using System.Text.Encodings.Web;
 using static Bogus.DataSets.Name;
-using System.Reflection;
+
+var sw = Stopwatch.StartNew();
 
 Randomizer.Seed = new Random(8675309);
 
@@ -29,6 +30,12 @@ var testUsers = new Faker<User>()
     .RuleFor(u => u.SomethingUnique, f => $"Value {f.UniqueIndex}")
     .RuleFor(u => u.TimeStamp, f => DateTime.Now)
     .RuleFor(u => u.CreateTime, f => DateTime.Now)
+    .RuleFor(u => u.DateOnlyValue, f => DateOnly.FromDateTime(DateTime.Today))
+    .RuleFor(u => u.TimeOnlyValue, f => TimeOnly.FromDateTime(DateTime.Now))
+    .RuleFor(u => u.TimeSpanValue, f => DateTime.Now - DateTime.Today)
+    .RuleFor(u => u.DateTimeOffsetValue, f => DateTimeOffset.UtcNow)
+    .RuleFor(u => u.Fallback, (f, u) => (object)userIds)
+    .RuleFor(u => u.Uri, f => new Uri(f.Internet.Url()))
     .RuleFor(u => u.SomeGuid, f => Guid.NewGuid())
     .RuleFor(u => u.SendFlag, f => userIds % 3 == 0)
     .RuleFor(u => u.CartId, f => Guid.NewGuid())
@@ -40,7 +47,12 @@ var testUsers = new Faker<User>()
         //Console.WriteLine("User Created! Id={0}", u.Id);
     });
 
-var Users = testUsers.Generate(100000);
+var users = testUsers.Generate(100000);
+
+sw.Stop();
+Console.WriteLine($"testUsers.Generate count:{users.Count:#,##0} duration:{sw.ElapsedMilliseconds:#,##0}ms");
+sw.Restart();
+
 var newConfig = CsvSerializerOptions.Default with
 {
     CultureInfo = CultureInfo.InvariantCulture,
@@ -49,10 +61,22 @@ var newConfig = CsvSerializerOptions.Default with
         new[] { new BoolZeroOneSerializer() },
         new[] { CsvSerializerProvider.Default }),
     HasHeaderRecord = true,
-    HeaderTitles = new string[] { "Id", "名", "姓", "氏名", "ユーザー名", "Email", "ユニークキー", "Guid", "Flag", "プロフィール画像", "カートGuid", "TEL", "UnixTime", "作成日時", "性別", "オーダー番号1", "アイテム1", "数量1", "ロット1", "オーダー番号2", "アイテム2", "数量2", "ロット2", "オーダー番号3", "アイテム3", "数量3", "ロット3", "数値" },
+    HeaderTitles = new string[] { "Id", "名", "姓", "氏名", "ユーザー名", "Email", "ユニークキー", "Guid", "Flag", "プロフィール画像", "カートGuid", "TEL", "UnixTime", "作成日時", "日付", "時刻", "TimeSpan", "DateTimeOffset", "Fallback", "Uri", "性別", "オーダー番号1", "アイテム1", "数量1", "ロット1", "オーダー番号2", "アイテム2", "数量2", "ロット2", "オーダー番号3", "アイテム3", "数量3", "ロット3", "数値" },
 };
 
-CsvSerializer.ToFile(Users, "test.csv", newConfig);
+var fileName = "test.csv";
+CsvSerializer.ToFile(users, fileName, newConfig);
+
+sw.Stop();
+
+Console.WriteLine($"CsvSerializer.ToFile duration:{sw.ElapsedMilliseconds:#,##0}ms");
+
+Console.WriteLine($"Excel file created. Please check the file. {fileName}");
+
+Console.WriteLine();
+Console.WriteLine("press any key...");
+
+Console.ReadLine();
 
 public class BoolZeroOneSerializer : ICsvSerializer<bool>
 {
@@ -104,6 +128,12 @@ public class User
     [CsvSerializer(typeof(UnixSecondsSerializer))]
     public DateTime TimeStamp { get; set; }
     public DateTime CreateTime { get; set; }
+    public DateOnly DateOnlyValue { get; set; }
+    public TimeOnly TimeOnlyValue { get; set; }
+    public TimeSpan TimeSpanValue { get; set; }
+    public DateTimeOffset DateTimeOffsetValue { get; set; }
+    public object Fallback { get; set; }
+    public Uri Uri { get; set; }
     public Bogus.DataSets.Name.Gender Gender { get; set; }
 
     public List<Order> Orders { get; set; }
