@@ -64,7 +64,7 @@ var newConfig = CsvSerializerOptions.Default with
     HeaderTitles = new string[] { "Id", "名", "姓", "氏名", "ユーザー名", "Email", "ユニークキー", "Guid", "Flag", "プロフィール画像", "カートGuid", "TEL", "UnixTime", "作成日時", "日付", "時刻", "TimeSpan", "DateTimeOffset", "Fallback", "Uri", "性別", "オーダー番号1", "アイテム1", "数量1", "ロット1", "オーダー番号2", "アイテム2", "数量2", "ロット2", "オーダー番号3", "アイテム3", "数量3", "ロット3", "数値" },
 };
 
-var fileName = "test.csv";
+var fileName = Path.Combine(Environment.CurrentDirectory, "test.csv");
 CsvSerializer.ToFile(users, fileName, newConfig);
 
 sw.Stop();
