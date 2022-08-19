@@ -1,4 +1,4 @@
 # FakeCsvSerializer
 
-IEnumerable<T>をCSV風のファイルに変換します。
+IEnumerable\<T\>をCSV風のファイルに変換します。
 
