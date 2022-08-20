@@ -1,24 +1,29 @@
 # FakeCsvSerializer
+Convert the object to an csv-like file.
 
-IEnumerable\<T\>をCSVっぽいデータに変換します。
+## Getting Started
+Supporting platform is .NET 6.
 
-### Usage
+~~~
+PM> Install-Package FakeCsvSerializer
+~~~
+
+## Usage
+You can use `CsvSerializer.ToFile`.
 
 ~~~
 CsvSerializer.ToFile(Users, "test.csv", CsvSerializerOptions.Default);
 ~~~
 
-### シリアライズの方式について
+## Note
+For the method of retrieving values from IEnumerable\<T\>, Cysharp's WebSerializer method is used.
 
-IEnumerable<T>から値を取り出す方法については
-Cysharp様のWebSerializerの方式を使用しています。
-
-効率的でなおかつ拡張性もある非常に素晴らしい構成です。
-
-https://github.com/Cysharp/WebSerializer
+　https://github.com/Cysharp/WebSerializer
   
-### .xlsxなデータを出力するバージョンはこちら
-  
-  https://github.com/panda728/FakeExcelSerializer
-
+## Link
+Excel(.xlsx) output version
+　https://github.com/panda728/FakeExcelSerializer
+ 
+## License
+This library is licensed under the MIT License.
 
