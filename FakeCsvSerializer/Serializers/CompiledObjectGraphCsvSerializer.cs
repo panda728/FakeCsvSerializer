@@ -71,27 +71,17 @@ internal sealed class CompiledObjectGraphCsvSerializer<T> : ICsvSerializer<T>
         var i = 0;
         foreach (var memberInfo in memberInfos)
         {
-            var writeBody = new List<Expression>();
-
             var body1 = Expression.Call(argWriterRef, ReflectionInfos.CsvWriter_Delimiter);
-            writeBody.Add(body1);
 
-            Expression serializer;
-            if (memberInfo.CsvSerializer == null)
-            {
-                serializer = Expression.Call(argOptions, ReflectionInfos.CsvSerializerOptions_GetRequiredSerializer(memberInfo.MemberType));
-            }
-            else
-            {
-                serializer = Expression.Convert(
+            Expression serializer = memberInfo.CsvSerializer == null
+                ? Expression.Call(argOptions, ReflectionInfos.CsvSerializerOptions_GetRequiredSerializer(memberInfo.MemberType))
+                : Expression.Convert(
                     Expression.ArrayIndex(argAlternateSerializers, Expression.Constant(i, typeof(int))),
                     typeof(ICsvSerializer<>).MakeGenericType(memberInfo.MemberType));
-            }
 
             var body2 = Expression.Call(serializer, ReflectionInfos.ICsvSerializer_Serialize(memberInfo.MemberType), argWriterRef, memberInfo.GetMemberExpression(argValue), argOptions);
-            writeBody.Add(body2);
 
-            var bodyBlock = Expression.Block(writeBody);
+            var bodyBlock = Expression.Block(body1, body2);
             if (!memberInfo.MemberType.IsValueType || memberInfo.MemberType.IsNullable())
             {
                 var nullExpr = Expression.Constant(null, memberInfo.MemberType);

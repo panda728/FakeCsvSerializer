@@ -77,9 +77,11 @@ public struct CsvSerializerWriter : IDisposable
     }
 
     /// <summary>Write raw bytes.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteRaw(ReadOnlySpan<byte> value) => _writer.Write(value);
 
     /// <summary>Write '"'.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteQuote()
     {
         if (_options.ShouldQuote)
@@ -87,6 +89,7 @@ public struct CsvSerializerWriter : IDisposable
     }
 
     /// <summary>Write "\"\"".</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteEmpty()
     {
         if (_options.ShouldQuote)
@@ -94,6 +97,7 @@ public struct CsvSerializerWriter : IDisposable
     }
 
     /// <summary>Write ",".</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteDelimiter()
     {
         if (_first)
@@ -105,23 +109,37 @@ public struct CsvSerializerWriter : IDisposable
     }
 
     /// <summary>Write CRLF.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteLine() => _writer.Write(_newLine);
 
     /// <summary>Write string.</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Write(ReadOnlySpan<char> value) => _options.Encoding.GetBytes(value, _writer);
-
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(bool value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(byte value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(sbyte value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(char value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(decimal value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(double value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(float value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(int value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(uint value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(long value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(ulong value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(short value) => _options.Encoding.GetBytes($"{value}", _writer);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WritePrimitive(ushort value) => _options.Encoding.GetBytes($"{value}", _writer);
 
     static void ThrowReachedMaxDepth(int depth)
