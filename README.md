@@ -20,12 +20,6 @@ For the method of retrieving values from IEnumerable\<T\>, Cysharp's WebSerializ
 
 　https://github.com/Cysharp/WebSerializer
   
-The following page provides information on how to return to OpenOfficeXml.
-
-　https://gist.github.com/iso2022jp/721df3095f4df512bfe2327503ea1119
-
-　https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/2c5dee00-eff2-4b22-92b6-0738acd4475e
-  
 ## License
 This library is licensed under the MIT License.
 
