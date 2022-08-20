@@ -1,4 +1,4 @@
-# FakeExcelSerializer
+# FakeCsvSerializer
 Convert the object to an csv-like file.
 
 ## Getting Started
