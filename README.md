@@ -20,6 +20,10 @@ For the method of retrieving values from IEnumerable\<T\>, Cysharp's WebSerializ
 
 　https://github.com/Cysharp/WebSerializer
   
+## Link
+Excel(.xlsx) output version
+　https://github.com/panda728/FakeExcelSerializer
+ 
 ## License
 This library is licensed under the MIT License.
 
