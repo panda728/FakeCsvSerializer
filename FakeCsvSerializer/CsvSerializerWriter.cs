@@ -39,7 +39,7 @@ public struct CsvSerializerWriter : IDisposable
     public ReadOnlySpan<byte> AsSpan() => _writer.GetSpan();
     public ReadOnlyMemory<byte> AsMemory() => _writer.GetMemory();
     public long BytesCommitted() => _writer.BytesCommitted;
-    public override string ToString() => _options.Encoding.GetString(_writer.GetSpan());
+    public override string ToString() => _options.Encoding.GetString(_writer.OutputAsSpan);
 
     public async Task CopyToAsync(Stream stream)
     {

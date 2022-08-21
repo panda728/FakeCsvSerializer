@@ -24,10 +24,10 @@ public sealed class AdhocCsvSerializerProvider : ICsvSerializerProvider
     {
         foreach (var serializer in serializers)
         {
-            var webSerializerType = serializer.GetType().GetImplementedGenericType(typeof(ICsvSerializer<>));
-            if (webSerializerType != null)
+            var csvSerializerType = serializer.GetType().GetImplementedGenericType(typeof(ICsvSerializer<>));
+            if (csvSerializerType != null)
             {
-                if (webSerializerType.GenericTypeArguments[0] == type)
+                if (csvSerializerType.GenericTypeArguments[0] == type)
                 {
                     return serializer;
                 }

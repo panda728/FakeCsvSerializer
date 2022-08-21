@@ -41,11 +41,7 @@ var testUsers = new Faker<User>()
     .RuleFor(u => u.CartId, f => Guid.NewGuid())
     .RuleFor(u => u.FullName, (f, u) => u.FirstName + " " + u.LastName)
     .RuleFor(u => u.Orders, f => testOrders.Generate(3).ToList())
-    .RuleFor(o => o.Value, f => f.Random.Double(0, 1000))
-    .FinishWith((f, u) =>
-    {
-        //Console.WriteLine("User Created! Id={0}", u.Id);
-    });
+    .RuleFor(o => o.Value, f => f.Random.Double(0, 1000));
 
 var users = testUsers.Generate(100000);
 
