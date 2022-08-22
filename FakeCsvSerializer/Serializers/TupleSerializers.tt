@@ -32,12 +32,8 @@ namespace FakeCsvSerializer.Serializers
             }
             writer.EnterAndValidate();
 <# for(var j = 1; j <= i; j++) { #>
-<# if(j != 1) { #>
             writer.WriteDelimiter();
-<# } #>
-            writer.WriteQuote();
             options.GetRequiredSerializer<<#= BuildTypeParameter(j) #>>().Serialize(ref writer, value.<#= BuildGetItemProperty(j) #>, options);
-            writer.WriteQuote();
 <# } #>
             writer.Exit();
         }
