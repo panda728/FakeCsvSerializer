@@ -1,7 +1,4 @@
-﻿using System.Buffers;
-using System.Text;
-
-namespace FakeCsvSerializer.Serializers;
+﻿namespace FakeCsvSerializer.Serializers;
 
 internal class BuiltinSerializers
 {
@@ -15,35 +12,23 @@ internal class BuiltinSerializers
                 return;
             }
 
-            if (ContainsNgWord(value))
+            var containsDoubleQuote = value.Contains('"');
+            if (containsDoubleQuote
+                || value.Contains('\r')
+                || value.Contains('\n')
+                || value.Contains('\t')
+                || value.Contains(',')
+                || value.Contains(' '))
             {
                 writer.Write("\"");
-                writer.Write(value.Contains('"') ? value.Replace("\"", "\"\"") : value);
+                writer.Write(containsDoubleQuote ? value.Replace("\"", "\"\"") : value);
                 writer.Write("\"");
                 return;
             }
 
             writer.WriteQuote();
-            writer.Write(value.Contains('"') ? value.Replace("\"", "\"\"") : value);
+            writer.Write(value);
             writer.WriteQuote();
-        }
-
-        bool ContainsNgWord(ReadOnlySpan<char> chars)
-        {
-            foreach (var c in chars)
-            {
-                if (c switch
-                {
-                    '\r' => true,
-                    '\n' => true,
-                    '\t' => true,
-                    ',' => true,
-                    '"' => true,
-                    ' ' => true,
-                    _ => false,
-                }) return true;
-            }
-            return false;
         }
     }
 
