@@ -130,7 +130,7 @@ public class ArrayPoolBufferWriter : IBufferWriter<byte>, IDisposable
     void CheckIfDisposed()
     {
         if (_rentedBuffer == null)
-            throw new ObjectDisposedException(nameof(ArrayPoolBufferWriter));
+            ThrowObjectDisposedException();
     }
 
     public Memory<byte> GetMemory(int sizeHint = 0)
