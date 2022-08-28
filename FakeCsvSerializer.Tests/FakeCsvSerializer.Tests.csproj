@@ -31,6 +31,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PrimitiveTest.cs</LastGenOutput>
     </None>
+    <None Update="TupleTest.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TupleTest.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +46,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>PrimitiveTest.tt</DependentUpon>
+    </Compile>
+    <Compile Update="TupleTest.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TupleTest.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
