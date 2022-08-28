@@ -35,9 +35,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, <#= type.Name #> value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 

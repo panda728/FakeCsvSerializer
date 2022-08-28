@@ -12,7 +12,7 @@ internal class BuiltinSerializers
                 return;
             }
 
-            var containsDoubleQuote = value.Contains('"');
+            var containsDoubleQuote = value.Contains(options.Quote);
             if (containsDoubleQuote
                 || value.Contains('\r')
                 || value.Contains('\n')
@@ -20,15 +20,24 @@ internal class BuiltinSerializers
                 || value.Contains(',')
                 || value.Contains(' '))
             {
-                writer.Write("\"");
-                writer.Write(containsDoubleQuote ? value.Replace("\"", "\"\"") : value);
-                writer.Write("\"");
+                var quote = $"{options.Quote}";
+                writer.WriteRaw(quote.AsSpan());
+                if (options.Trim)
+                    writer.WriteRaw(containsDoubleQuote 
+                        ? value.Replace(quote, $"{quote}{quote}").AsSpan().Trim() 
+                        : value.AsSpan().Trim());
+                else
+                    writer.WriteRaw(containsDoubleQuote ? 
+                        value.Replace(quote, $"{quote}{quote}").AsSpan() : 
+                        value.AsSpan());
+                writer.WriteRaw(quote.AsSpan());
                 return;
             }
 
-            writer.WriteQuote();
-            writer.Write(value);
-            writer.WriteQuote();
+            if (options.Trim)
+                writer.Write(value.AsSpan().Trim());
+            else
+                writer.Write(value.AsSpan());
         }
     }
 
@@ -36,9 +45,7 @@ internal class BuiltinSerializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Guid value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.Write($"{value}".AsSpan());
         }
     }
 
@@ -46,9 +53,7 @@ internal class BuiltinSerializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Enum value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.Write($"{value}".AsSpan());
         }
     }
 
@@ -56,9 +61,7 @@ internal class BuiltinSerializers
     {
         public void Serialize(ref CsvSerializerWriter writer, DateTime value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write(value.ToString(options.CultureInfo));
-            writer.WriteQuote();
+            writer.Write(value.ToString(options.CultureInfo).AsSpan());
         }
     }
 
@@ -66,9 +69,7 @@ internal class BuiltinSerializers
     {
         public void Serialize(ref CsvSerializerWriter writer, DateTimeOffset value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write(value.ToString(options.CultureInfo));
-            writer.WriteQuote();
+            writer.Write(value.ToString(options.CultureInfo).AsSpan());
         }
     }
 
@@ -76,9 +77,7 @@ internal class BuiltinSerializers
     {
         public void Serialize(ref CsvSerializerWriter writer, TimeSpan value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.Write($"{value}".AsSpan());
         }
     }
 
@@ -92,19 +91,16 @@ internal class BuiltinSerializers
                 return;
             }
 
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.Write($"{value}".AsSpan());
         }
     }
 
+#if NET6_0_OR_GREATER
     public sealed class DateOnlyCsvSerializer : ICsvSerializer<DateOnly>
     {
         public void Serialize(ref CsvSerializerWriter writer, DateOnly value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write(value.ToString(options.CultureInfo));
-            writer.WriteQuote();
+            writer.Write(value);
         }
     }
 
@@ -112,9 +108,8 @@ internal class BuiltinSerializers
     {
         public void Serialize(ref CsvSerializerWriter writer, TimeOnly value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write(value.ToString(options.CultureInfo));
-            writer.WriteQuote();
+            writer.Write(value);
         }
     }
+#endif
 }

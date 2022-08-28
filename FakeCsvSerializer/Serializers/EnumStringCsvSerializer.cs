@@ -15,9 +15,7 @@ public sealed class EnumStringCsvSerializer<T> : ICsvSerializer<T>
     public void Serialize(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options)
     {
         var str = stringCache.GetOrAdd(value, toStringFactory);
-        writer.WriteQuote();
-        writer.Write(str);
-        writer.WriteQuote();
+        writer.Write(str.AsSpan());
     }
 
     static string EnumToString(T value)
@@ -45,9 +43,7 @@ public sealed class EnumValueCsvSerializer<T> : ICsvSerializer<T>
     public void Serialize(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options)
     {
         var str = stringCache.GetOrAdd(value, toStringFactory);
-        writer.WriteQuote();
-        writer.Write(str);
-        writer.WriteQuote();
+        writer.Write(str.AsSpan());
     }
 
     static string EnumToString(T value)

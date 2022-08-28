@@ -56,6 +56,7 @@ var newConfig = CsvSerializerOptions.Default with
     Provider = CsvSerializerProvider.Create(
         new[] { new BoolZeroOneSerializer() },
         new[] { CsvSerializerProvider.Default }),
+    Trim = true,
     HasHeaderRecord = true,
     HeaderTitles = new string[] { "Id", "FName", "LName", "Name", "UserID", "Email", "Key", "Guid", "Flag", "Profile", "CartGuid", "TEL", "UnixTime", "Create Time", "Date", "Time", "TimeSpan", "DateTimeOffset", "Fallback", "Uri", "Gender", "OrderNumber1", "Item1", "Qty1", "Lot1", "OrderNumber2", "Item2", "Qty", "Lot2", "OrderNumber3", "Item3", "Qty3", "Lot3", "Value" },
 };

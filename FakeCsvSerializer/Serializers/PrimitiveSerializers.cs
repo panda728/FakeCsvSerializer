@@ -16,9 +16,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Boolean value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -27,9 +25,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Byte value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -38,9 +34,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, SByte value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -49,9 +43,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Char value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -60,9 +52,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Decimal value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -71,9 +61,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Double value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -82,9 +70,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Single value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -93,9 +79,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Int32 value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -104,9 +88,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, UInt32 value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -115,9 +97,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Int64 value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -126,9 +106,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, UInt64 value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -137,9 +115,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, Int16 value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
@@ -148,9 +124,7 @@ namespace FakeCsvSerializer.Serializers
     {
         public void Serialize(ref CsvSerializerWriter writer, UInt16 value, CsvSerializerOptions options)
         {
-            writer.WriteQuote();
-            writer.Write($"{value}");
-            writer.WriteQuote();
+            writer.WritePrimitive(value);
         }
     }
 
