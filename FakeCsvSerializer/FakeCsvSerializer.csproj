@@ -10,7 +10,7 @@
     <Authors>Hideyuki Kitao</Authors>
     <Company />
     <LangVersion>10.0</LangVersion>
-    <Description>FakeCsvSerialiser converts object into CSV-like file</Description>
+    <Description>FakeCsvSerialiser converts object into CSV file</Description>
     <PackageProjectUrl>https://github.com/panda728/FakeCsvSerializer</PackageProjectUrl>
     <Copyright>Copyright (c) Hideyuki Kitao 2022</Copyright>
     <RepositoryUrl>https://github.com/panda728/FakeCsvSerializer</RepositoryUrl>
