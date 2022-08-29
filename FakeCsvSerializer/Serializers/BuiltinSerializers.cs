@@ -6,31 +6,9 @@ internal class BuiltinSerializers
 {
     public sealed class StringCsvSerializer : ICsvSerializer<string?>
     {
-        private const string TargetChars = "\r\n\t, ";
         public void Serialize(ref CsvSerializerWriter writer, string? value, CsvSerializerOptions options)
         {
-            if (value == null)
-            {
-                writer.WriteEmpty();
-                return;
-            }
-
-            var span = value.AsSpan();
-            var containsQuote = span.IndexOf(options.Quote) > 0;
-            if (containsQuote || span.IndexOfAny(TargetChars.AsSpan()) > 0)
-            {
-                var quote = $"{options.Quote}";
-                writer.WriteRaw(quote.AsSpan());
-                if (!containsQuote)
-                    writer.WriteRaw(options.Trim ? span.Trim() : span);
-                else
-                    writer.WriteRaw(options.Trim
-                        ? value.Replace(quote, $"{quote}{quote}").AsSpan().Trim()
-                        : value.Replace(quote, $"{quote}{quote}").AsSpan());
-                writer.WriteRaw(quote.AsSpan());
-                return;
-            }
-            writer.Write(options.Trim ? span.Trim() : span);
+            writer.Write(value);
         }
     }
 
@@ -84,7 +62,7 @@ internal class BuiltinSerializers
                 return;
             }
 
-            writer.Write($"{value}".AsSpan());
+            writer.Write($"{value}");
         }
     }
 
