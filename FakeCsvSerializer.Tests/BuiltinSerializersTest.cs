@@ -41,6 +41,19 @@ namespace FakeCsvSerializer.Tests
         }
 
         [Fact]
+        public void Serializer_Escape()
+        {
+            var option = CsvSerializerOptions.Default with
+            {
+                ShouldQuote = false,
+            };
+            RunTest(
+                "colu\"mn1", "column2",
+                "\"colu\"\"mn1\",column2",
+               option);
+        }
+
+        [Fact]
         public void Serializer_Guid()
         {
             var guid1 = Guid.NewGuid();

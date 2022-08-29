@@ -131,7 +131,7 @@ public struct CsvSerializerWriter : IDisposable
     }
 
     private const string TargetChars = "\r\n\t, ";
-    public void Write(string? value)
+    public void Write(in string? value)
     {
         if (value == null)
         {
@@ -152,7 +152,7 @@ public struct CsvSerializerWriter : IDisposable
         Write(_options.Trim ? span.Trim() : span);
     }
 
-    public string? Replace(in ReadOnlySpan<char> value, ReadOnlySpan<char> oldValue, string newValue)
+    public static string? Replace(in ReadOnlySpan<char> value, ReadOnlySpan<char> oldValue, string newValue)
     {
         StringBuilder? sb = null;
         int pos;
