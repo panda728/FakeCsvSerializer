@@ -11,6 +11,7 @@ using System.Text;
 namespace BenchmarkSample
 {
     [MarkdownExporterAttribute.GitHub]
+    [ShortRunJob]
     [MemoryDiagnoser]
     public class ExportCsv
     {
