@@ -12,6 +12,7 @@ public record CsvSerializerOptions(ICsvSerializerProvider Provider)
     public bool ShouldQuote { get; init; } = true;
     public char Quote { get; init; } = '\"';
     public char Delimiter { get; init; } = ',';
+    public bool Trim { get; init; } = false;
     public bool HasHeaderRecord { get; init; } = false;
     public string NewLine { get; init; } = Environment.NewLine;
     public int MaxDepth { get; init; } = 64;

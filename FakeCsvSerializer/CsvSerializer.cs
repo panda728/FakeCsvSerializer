@@ -21,9 +21,7 @@ public static class CsvSerializer
             foreach (var t in options.HeaderTitles)
             {
                 writer.WriteDelimiter();
-                writer.WriteQuote();
-                writer.Write(t);
-                writer.WriteQuote();
+                writer.Write(t.AsSpan());
             }
             writer.WriteLine();
             writer.CopyTo(stream);

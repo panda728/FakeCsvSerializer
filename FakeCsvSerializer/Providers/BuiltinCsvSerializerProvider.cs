@@ -14,8 +14,10 @@ public sealed class BuiltinCsvSerializerProvider : ICsvSerializerProvider
             { typeof(DateTimeOffset), new  BuiltinSerializers.DateTimeOffsetCsvSerializer() },
             { typeof(TimeSpan), new  BuiltinSerializers.TimeSpanCsvSerializer() },
             { typeof(Uri), new  BuiltinSerializers.UriCsvSerializer() },
+#if NET6_0_OR_GREATER
             { typeof(DateOnly), new  BuiltinSerializers.DateOnlyCsvSerializer() },
             { typeof(TimeOnly), new  BuiltinSerializers.TimeOnlyCsvSerializer() },
+#endif
         };
 
     public ICsvSerializer<T>? GetSerializer<T>()

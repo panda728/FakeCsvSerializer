@@ -40,9 +40,7 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }
@@ -78,16 +76,12 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }
@@ -126,23 +120,17 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T3>().Serialize(ref writer, value.Item3, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }
@@ -184,30 +172,22 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T3>().Serialize(ref writer, value.Item3, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T4>().Serialize(ref writer, value.Item4, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }
@@ -252,37 +232,27 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T3>().Serialize(ref writer, value.Item3, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T4>().Serialize(ref writer, value.Item4, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T5>().Serialize(ref writer, value.Item5, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }
@@ -330,44 +300,32 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T3>().Serialize(ref writer, value.Item3, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T4>().Serialize(ref writer, value.Item4, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T5>().Serialize(ref writer, value.Item5, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T6>().Serialize(ref writer, value.Item6, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }
@@ -418,51 +376,37 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T3>().Serialize(ref writer, value.Item3, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T4>().Serialize(ref writer, value.Item4, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T5>().Serialize(ref writer, value.Item5, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T6>().Serialize(ref writer, value.Item6, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T7>().Serialize(ref writer, value.Item7, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }
@@ -520,58 +464,42 @@ namespace FakeCsvSerializer.Serializers
             writer.EnterAndValidate();
 
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T3>().Serialize(ref writer, value.Item3, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T4>().Serialize(ref writer, value.Item4, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T5>().Serialize(ref writer, value.Item5, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T6>().Serialize(ref writer, value.Item6, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<T7>().Serialize(ref writer, value.Item7, options);
-            writer.WriteQuote();
 
 
             writer.WriteDelimiter();
 
-            writer.WriteQuote();
             options.GetRequiredSerializer<TRest>().Serialize(ref writer, value.Rest, options);
-            writer.WriteQuote();
 
             writer.Exit();
         }

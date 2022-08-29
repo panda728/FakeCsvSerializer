@@ -110,6 +110,7 @@ namespace FakeCsvSerializer.Tests
                 $"\"{value1}\",\"{value2}\"",
                 CsvSerializerOptions.Default);
         }
+#if NET6_0_OR_GREATER
         [Fact]
         public void Serializer_DateOnly()
         {
@@ -132,5 +133,6 @@ namespace FakeCsvSerializer.Tests
                 $"\"{value1.ToString(option.CultureInfo)}\",\"{value2.ToString(option.CultureInfo)}\"",
                 CsvSerializerOptions.Default);
         }
+#endif
     }
 }

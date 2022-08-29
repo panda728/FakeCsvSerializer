@@ -1,4 +1,5 @@
 ﻿using System.Buffers;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -39,7 +40,12 @@ public struct CsvSerializerWriter : IDisposable
     public ReadOnlySpan<byte> AsSpan() => _writer.GetSpan();
     public ReadOnlyMemory<byte> AsMemory() => _writer.GetMemory();
     public long BytesCommitted() => _writer.BytesCommitted;
-    public override string ToString() => _options.Encoding.GetString(_writer.OutputAsSpan);
+    public override string ToString() => Encoding.UTF8.GetString(
+#if NETSTANDARD2_0 || NETSTANDARD2_1
+        _writer.OutputAsSpan.ToArray());
+#else
+        _writer.OutputAsSpan);
+#endif
 
     public async Task CopyToAsync(Stream stream)
     {
@@ -114,34 +120,61 @@ public struct CsvSerializerWriter : IDisposable
 
     /// <summary>Write string.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Write(ReadOnlySpan<char> value) => _options.Encoding.GetBytes(value, _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(bool value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(byte value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(sbyte value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(char value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(decimal value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(double value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(float value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(int value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(uint value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(long value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(ulong value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(short value) => _options.Encoding.GetBytes($"{value}", _writer);
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WritePrimitive(ushort value) => _options.Encoding.GetBytes($"{value}", _writer);
+    public void WriteRaw(ReadOnlySpan<char> value)
+    {
+#if NET6_0_OR_GREATER
+        _options.Encoding.GetBytes(value, _writer);
+#else
+        var bytes = _options.Encoding.GetBytes(value.ToArray(), 0, value.Length);
+        _writer.Write(bytes);
+#endif
+    }
 
+    /// <summary>Write string. with Quoate</summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Write(ReadOnlySpan<char> value)
+    {
+        WriteQuote();
+        WriteRaw(value);
+        WriteQuote();
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(bool value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(byte value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(sbyte value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(char value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(decimal value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(double value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(float value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(int value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(uint value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(long value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(ulong value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(short value) => Write($"{value}".AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void WritePrimitive(ushort value) => Write($"{value}".AsSpan());
+
+#if NET6_0_OR_GREATER
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Write(DateOnly value) => Write(value.ToString(_options.CultureInfo).AsSpan());
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Write(TimeOnly value) => Write(value.ToString(_options.CultureInfo).AsSpan());
+#endif
+
+#if !NETSTANDARD2_0
+    [DoesNotReturn]
+#endif
     static void ThrowReachedMaxDepth(int depth)
     {
         throw new InvalidOperationException($"Serializer detects reached max depth:{depth}. Please check the circular reference.");
