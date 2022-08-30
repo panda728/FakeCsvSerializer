@@ -58,7 +58,7 @@ var newConfig = CsvSerializerOptions.Default with
         new[] { CsvSerializerProvider.Default }),
     Trim = true,
     HasHeaderRecord = true,
-    HeaderTitles = new string[] { "Id", "FName", "LName", "Name", "UserID", "Email", "Key", "Guid", "Flag", "Profile", "CartGuid", "TEL", "UnixTime", "Create Time", "Date", "Time", "TimeSpan", "DateTimeOffset", "Fallback", "Uri", "Gender", "OrderNumber1", "Item1", "Qty1", "Lot1", "OrderNumber2", "Item2", "Qty", "Lot2", "OrderNumber3", "Item3", "Qty3", "Lot3", "Value" },
+    //HeaderTitles = new string[] { "Id", "FName", "LName", "Name", "UserID", "Email", "Key", "Guid", "Flag", "Profile", "CartGuid", "TEL", "UnixTime", "Create Time", "Date", "Time", "TimeSpan", "DateTimeOffset", "Fallback", "Uri", "Gender", "OrderNumber1", "Item1", "Qty1", "Lot1", "OrderNumber2", "Item2", "Qty", "Lot2", "OrderNumber3", "Item3", "Qty3", "Lot3", "Value" },
 };
 
 var fileName = Path.Combine(Environment.CurrentDirectory, "test.csv");
@@ -77,6 +77,9 @@ Console.ReadLine();
 
 public class BoolZeroOneSerializer : ICsvSerializer<bool>
 {
+    public void WriteTitle(ref CsvSerializerWriter writer, bool value, CsvSerializerOptions options, string name = "")
+        => writer.Write(name);
+
     public void Serialize(ref CsvSerializerWriter writer, bool value, CsvSerializerOptions options)
     {
         // true => 0, false => 1
@@ -86,6 +89,9 @@ public class BoolZeroOneSerializer : ICsvSerializer<bool>
 
 public class UnixSecondsSerializer : ICsvSerializer<DateTime>
 {
+    public void WriteTitle(ref CsvSerializerWriter writer, DateTime value, CsvSerializerOptions options, string name = "")
+        => writer.Write(name);
+
     public void Serialize(ref CsvSerializerWriter writer, DateTime value, CsvSerializerOptions options)
     {
         writer.WritePrimitive(((DateTimeOffset)(value)).ToUnixTimeSeconds());

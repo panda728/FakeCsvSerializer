@@ -10,24 +10,35 @@ public static class CsvSerializer
 
     public static void ToStream<T>(IEnumerable<T> rows, Stream stream, CsvSerializerOptions options)
     {
+        if (rows == null || !rows.Any())
+            return;
         using (var writer = new CsvSerializerWriter(options))
             WriteCsv(rows, stream, options, writer);
     }
 
     static void WriteCsv<T>(IEnumerable<T> rows, Stream stream, CsvSerializerOptions options, CsvSerializerWriter writer)
     {
-        if (options.HasHeaderRecord && options.HeaderTitles != null)
+        var serializer = options.GetSerializer<T>();
+        if (serializer == null)
+            return;
+
+        if (options.HasHeaderRecord)
         {
-            foreach (var t in options.HeaderTitles)
+            if (options.HeaderTitles != null&& options.HeaderTitles.Any())
             {
-                writer.WriteDelimiter();
-                writer.Write(t.AsSpan());
+                foreach (var t in options.HeaderTitles)
+                {
+                    writer.WriteDelimiter();
+                    writer.Write(t.AsSpan());
+                }
+            }else
+            {
+                serializer.WriteTitle(ref writer, rows.First(), options);
             }
             writer.WriteLine();
             writer.CopyTo(stream);
         }
 
-        var serializer = options.GetSerializer<T>();
         foreach (var row in rows)
         {
             if (row == null) continue;

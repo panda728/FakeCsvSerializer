@@ -3,6 +3,18 @@
 public sealed class EnumerableCsvSerializer<TCollection, TElement> : ICsvSerializer<TCollection>
     where TCollection : IEnumerable<TElement>
 {
+    public void WriteTitle(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options, string name = "")
+    {
+        writer.EnterAndValidate();
+        var serializer = options.GetRequiredSerializer<TElement>();
+        foreach (var item in value)
+        {
+            writer.WriteDelimiter();
+            serializer.WriteTitle(ref writer, item, options);
+        }
+        writer.Exit();
+    }
+
     public void Serialize(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options)
     {
         if (value == null)
@@ -25,6 +37,21 @@ public sealed class EnumerableCsvSerializer<TCollection, TElement> : ICsvSeriali
 public sealed class DictionaryCsvSerializer<TDictionary, TKey, TValue> : ICsvSerializer<TDictionary>
     where TDictionary : IDictionary<TKey, TValue>
 {
+    public void WriteTitle(ref CsvSerializerWriter writer, TDictionary value, CsvSerializerOptions options, string name = "")
+    {
+        var keySerializer = options.GetRequiredSerializer<TKey>();
+        var valueSerializer = options.GetRequiredSerializer<TValue>();
+        writer.EnterAndValidate();
+        foreach (var item in value)
+        {
+            writer.WriteDelimiter();
+            keySerializer.WriteTitle(ref writer, item.Key, options, "Key");
+            writer.WriteDelimiter();
+            valueSerializer.WriteTitle(ref writer, item.Value, options, "Value");
+        }
+        writer.Exit();
+    }
+
     public void Serialize(ref CsvSerializerWriter writer, TDictionary value, CsvSerializerOptions options)
     {
         if (value == null)
@@ -58,6 +85,21 @@ public sealed class DictionaryCsvSerializer<TDictionary, TKey, TValue> : ICsvSer
 public sealed class EnumerableKeyValuePairCsvSerializer<TCollection, TKey, TValue> : ICsvSerializer<TCollection>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
 {
+    public void WriteTitle(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options, string name = "")
+    {
+        var keySerializer = options.GetRequiredSerializer<TKey>();
+        var valueSerializer = options.GetRequiredSerializer<TValue>();
+        writer.EnterAndValidate();
+        foreach (var item in value)
+        {
+            writer.WriteDelimiter();
+            keySerializer.WriteTitle(ref writer, item.Key, options, "Key");
+            writer.WriteDelimiter();
+            valueSerializer.WriteTitle(ref writer, item.Value, options, "Value");
+        }
+        writer.Exit();
+    }
+
     public void Serialize(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options)
     {
         if (value == null)
