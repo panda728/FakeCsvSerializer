@@ -33,10 +33,10 @@ namespace FakeCsvSerializer.Serializers
 <# foreach (var type in primitives) { #>
     public sealed class <#= type.Name #>CsvSerializer : ICsvSerializer<<#= type.Name #>>
     {
+		public void WriteTitle(ref CsvSerializerWriter writer, <#= type.Name #> value, CsvSerializerOptions options, string name = "")
+			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, <#= type.Name #> value, CsvSerializerOptions options)
-        {
-            writer.WritePrimitive(value);
-        }
+            => writer.WritePrimitive(value);
     }
 
 <# } #>

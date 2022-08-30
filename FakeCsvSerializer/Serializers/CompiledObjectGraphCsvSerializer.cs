@@ -7,10 +7,12 @@ namespace FakeCsvSerializer.Serializers;
 
 internal sealed class CompiledObjectGraphCsvSerializer<T> : ICsvSerializer<T>
 {
+    delegate void WriteTitleMethod(ref CsvSerializerWriter writer, ICsvSerializer?[]? alternateSerializers, T value, CsvSerializerOptions options);
     delegate void SerializeMethod(ref CsvSerializerWriter writer, ICsvSerializer?[]? alternateSerializers, T value, CsvSerializerOptions options);
 
     static readonly string[] names;
     static readonly ICsvSerializer?[]? alternateSerializers;
+    static readonly WriteTitleMethod writeTitle;
     static readonly SerializeMethod serialize;
     static readonly bool isReferenceType;
 
@@ -32,10 +34,18 @@ internal sealed class CompiledObjectGraphCsvSerializer<T> : ICsvSerializer<T>
         {
             alternateSerializers = members.Select(x => x.CsvSerializer).ToArray();
         }
+        writeTitle = CompileTitleWriter(typeof(T), members);
         serialize = CompileSerializer(typeof(T), members);
     }
 
     public static string[] Names => names;
+
+    public void WriteTitle(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options, string name = "")
+    {
+        writer.EnterAndValidate();
+        writeTitle(ref writer, alternateSerializers, value, options);
+        writer.Exit();
+    }
 
     public void Serialize(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options)
     {
@@ -52,6 +62,45 @@ internal sealed class CompiledObjectGraphCsvSerializer<T> : ICsvSerializer<T>
         writer.EnterAndValidate();
         serialize(ref writer, alternateSerializers, value, options);
         writer.Exit();
+    }
+    static WriteTitleMethod CompileTitleWriter(Type valueType, SerializableMemberInfo[] memberInfos)
+    {
+        // foreach(members)
+        //     options.GetRequiredSerializer<T>() || ((ICsvSerialzier<T>)alternateSerializers[0] .WriteTitle(writer, value.Foo, options, propertyName)
+        var argWriterRef = Expression.Parameter(typeof(CsvSerializerWriter).MakeByRefType());
+        var argAlternateSerializers = Expression.Parameter(typeof(ICsvSerializer[]));
+        var argValue = Expression.Parameter(valueType);
+        var argOptions = Expression.Parameter(typeof(CsvSerializerOptions));
+        var foreachBodies = new List<Expression>();
+
+        var i = 0;
+        foreach (var memberInfo in memberInfos)
+        {
+            var body1 = Expression.Call(argWriterRef, ReflectionInfos.CsvWriter_Delimiter);
+
+            Expression serializer = memberInfo.CsvSerializer == null
+                ? Expression.Call(argOptions, ReflectionInfos.CsvSerializerOptions_GetRequiredSerializer(memberInfo.MemberType))
+                : Expression.Convert(
+                    Expression.ArrayIndex(argAlternateSerializers, Expression.Constant(i, typeof(int))),
+                    typeof(ICsvSerializer<>).MakeGenericType(memberInfo.MemberType)
+                );
+
+            var callWriteMember = Expression.Call(
+                serializer,
+                ReflectionInfos.ICsvSerializer_WriteTitle(memberInfo.MemberType),
+                argWriterRef,
+                memberInfo.GetMemberExpression(argValue),
+                argOptions,
+                Expression.Constant(memberInfo.Name)
+            );
+
+            foreachBodies.Add(Expression.Block(body1, callWriteMember));
+            i++;
+        }
+
+        var body = Expression.Block(foreachBodies);
+        var lambda = Expression.Lambda<WriteTitleMethod>(body, argWriterRef, argAlternateSerializers, argValue, argOptions);
+        return lambda.Compile();
     }
 
     static SerializeMethod CompileSerializer(Type valueType, SerializableMemberInfo[] memberInfos)
@@ -111,6 +160,7 @@ internal sealed class CompiledObjectGraphCsvSerializer<T> : ICsvSerializer<T>
         internal static MethodInfo CsvWriter_Empty { get; } = typeof(CsvSerializerWriter).GetMethod("WriteEmpty")!;
         internal static MethodInfo CsvSerializerOptions_GetRequiredSerializer(Type type) => typeof(CsvSerializerOptions).GetMethod("GetRequiredSerializer", 1, Type.EmptyTypes)!.MakeGenericMethod(type);
         internal static MethodInfo ICsvSerializer_Serialize(Type type) => typeof(ICsvSerializer<>).MakeGenericType(type).GetMethod("Serialize")!;
+        internal static MethodInfo ICsvSerializer_WriteTitle(Type type) => typeof(ICsvSerializer<>).MakeGenericType(type).GetMethod("WriteTitle")!;
     }
 }
 

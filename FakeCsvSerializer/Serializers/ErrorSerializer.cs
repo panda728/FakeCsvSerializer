@@ -12,6 +12,11 @@ public sealed class ErrorSerializer<T> : ICsvSerializer<T>
         this.exception = ExceptionDispatchInfo.Capture(exception);
     }
 
+    public void WriteTitle(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options, string name = "")
+    {
+        exception.Throw();
+    }
+
     public void Serialize(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options)
     {
         exception.Throw();

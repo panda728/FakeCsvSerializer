@@ -12,6 +12,9 @@ public sealed class EnumStringCsvSerializer<T> : ICsvSerializer<T>
     static readonly ConcurrentDictionary<T, string> stringCache = new();
     static readonly Func<T, string> toStringFactory = EnumToString;
 
+    public void WriteTitle(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options, string name = "")
+        => writer.Write(name); 
+
     public void Serialize(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options)
     {
         var str = stringCache.GetOrAdd(value, toStringFactory);
@@ -39,6 +42,9 @@ public sealed class EnumValueCsvSerializer<T> : ICsvSerializer<T>
 {
     static readonly ConcurrentDictionary<T, string> stringCache = new();
     static readonly Func<T, string> toStringFactory = EnumToString;
+
+    public void WriteTitle(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options, string name = "")
+        => writer.Write(name);
 
     public void Serialize(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options)
     {
