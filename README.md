@@ -16,16 +16,16 @@ CsvSerializer.ToFile(Users, "test.csv", CsvSerializerOptions.Default);
 ~~~
 
 ## Benchmark
-|            Method |   N |        Mean |     Error |    StdDev |      Median | Ratio | RatioSD |      Gen0 |     Gen1 |   Allocated | Alloc Ratio |
-|------------------ |---- |------------:|----------:|----------:|------------:|------:|--------:|----------:|---------:|------------:|------------:|
-|         CsvHelper |   1 |  8,015.1 us | 158.66 us | 305.69 us |  8,082.1 us |  1.00 |    0.00 |   93.7500 |  46.8750 |   406.25 KB |        1.00 |
-| FakeCsvSerializer |   1 |    733.5 us |  30.33 us |  85.56 us |    702.3 us |  0.09 |    0.01 |    2.9297 |   0.9766 |    13.98 KB |        0.03 |
-|                   |     |             |           |           |             |       |         |           |          |             |             |
-|         CsvHelper |  10 | 10,787.5 us | 108.24 us |  90.39 us | 10,757.9 us |  1.00 |    0.00 |  515.6250 |        - |  2143.73 KB |        1.00 |
-| FakeCsvSerializer |  10 |  3,770.4 us |  74.93 us | 170.65 us |  3,791.1 us |  0.33 |    0.01 |   23.4375 |   7.8125 |    98.36 KB |        0.05 |
-|                   |     |             |           |           |             |       |         |           |          |             |             |
-|         CsvHelper | 100 | 37,116.4 us | 456.98 us | 405.10 us | 36,987.8 us |  1.00 |    0.00 | 4700.0000 | 100.0000 | 19511.62 KB |        1.00 |
-| FakeCsvSerializer | 100 | 33,396.7 us | 650.69 us | 543.36 us | 33,103.1 us |  0.90 |    0.02 |  187.5000 |        - |   942.15 KB |        0.05 |
+|            Method |   N |      Mean |     Error |    StdDev | Ratio | RatioSD |      Gen0 |    Gen1 |   Gen2 |   Allocated | Alloc Ratio |
+|------------------ |---- |----------:|----------:|----------:|------:|--------:|----------:|--------:|-------:|------------:|------------:|
+|         CsvHelper |   1 |  8.878 ms |  2.130 ms | 0.1167 ms |  1.00 |    0.00 |   93.7500 |       - |      - |    406.7 KB |        1.00 |
+| FakeCsvSerializer |   1 |  1.560 ms | 11.263 ms | 0.6174 ms |  0.18 |    0.07 |   12.6953 |  5.8594 | 0.9766 |     53.9 KB |        0.13 |
+|                   |     |           |           |           |       |         |           |         |        |             |             |
+|         CsvHelper |  10 | 11.748 ms |  5.464 ms | 0.2995 ms |  1.00 |    0.00 |  515.6250 |       - |      - |  2148.45 KB |        1.00 |
+| FakeCsvSerializer |  10 |  5.149 ms |  1.686 ms | 0.0924 ms |  0.44 |    0.01 |  117.1875 |  7.8125 |      - |    497.6 KB |        0.23 |
+|                   |     |           |           |           |       |         |           |         |        |             |             |
+|         CsvHelper | 100 | 37.832 ms |  8.318 ms | 0.4559 ms |  1.00 |    0.00 | 4785.7143 | 71.4286 |      - | 19558.86 KB |        1.00 |
+| FakeCsvSerializer | 100 | 47.393 ms | 10.683 ms | 0.5856 ms |  1.25 |    0.03 | 1181.8182 | 90.9091 |      - |  4936.11 KB |        0.25 |
 
 ## Examples
 
@@ -58,13 +58,34 @@ var potals = new Portal[] {
 CsvSerializer.ToFile(potals, @"c:\test\potals.csv", CsvSerializerOptions.Default);
 ~~~
 
-potals.csv:
+By setting attributes on the class, you can specify the name of the title or change the order of the columns.
 ~~~
-"Portal1","panda728","8"
-"Portal2","panda728","1"
-"Portal3","panda728","2"
+public class PortalEx
+{
+    [DataMember(Name = "Name Ex", Order = 3)]
+    public string Name { get; set; }
+    [DataMember(Name = "Owner Ex", Order = 1)]
+    public string Owner { get; set; }
+    [DataMember(Name = "Level Ex", Order = 2)]
+    public int Level { get; set; }
+}
+
+var potalsEx = new PortalEx[] {
+    new PortalEx { Name = "Portal1", Owner = "panda728", Level = 8 },
+    new PortalEx { Name = "Portal2", Owner = "panda728", Level = 1 },
+    new PortalEx { Name = "Portal3", Owner = "panda728", Level = 2 },
+};
+
+CsvSerializer.ToFile(potalsEx, @"c:\test\potalsEx.csv", newConfigEx);
 ~~~
 
+potalsEx.csv:
+~~~
+"Owner Ex","Level Ex","Name Ex"
+"panda728","8","Portal1"
+"panda728","1","Portal2"
+"panda728","2","Portal3"
+~~~
 
 Options can be set to display a title line.
 ~~~
