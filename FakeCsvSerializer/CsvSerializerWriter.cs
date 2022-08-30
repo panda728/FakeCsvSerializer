@@ -1,4 +1,6 @@
-﻿using System.Buffers;
+﻿using System;
+using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -41,10 +43,10 @@ public struct CsvSerializerWriter : IDisposable
     public ReadOnlyMemory<byte> AsMemory() => _writer.GetMemory();
     public long BytesCommitted() => _writer.BytesCommitted;
     public override string ToString() => Encoding.UTF8.GetString(
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-        _writer.OutputAsSpan.ToArray());
-#else
+#if NETSTANDARD2_1_OR_GREATER
         _writer.OutputAsSpan);
+#else
+        _writer.OutputAsSpan.ToArray());
 #endif
 
     public async Task CopyToAsync(Stream stream)
@@ -71,9 +73,7 @@ public struct CsvSerializerWriter : IDisposable
         _first = true;
         _currentDepth++;
         if (_currentDepth >= _options.MaxDepth)
-        {
             ThrowReachedMaxDepth(_currentDepth);
-        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -122,11 +122,56 @@ public struct CsvSerializerWriter : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void WriteRaw(ReadOnlySpan<char> value)
     {
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
         _options.Encoding.GetBytes(value, _writer);
 #else
         var bytes = _options.Encoding.GetBytes(value.ToArray(), 0, value.Length);
         _writer.Write(bytes);
+#endif
+    }
+
+    private const string TargetChars = "\r\n\t, ";
+    public void Write(in string? value)
+    {
+        if (value == null)
+        {
+            WriteEmpty();
+            return;
+        }
+
+        var span = _options.Trim ? value.AsSpan().Trim() : value.AsSpan();
+        var containsQuote = span.IndexOf(_options.Quote) > 0;
+        if (containsQuote || _options.ShouldQuote || span.IndexOfAny(TargetChars.AsSpan()) > 0)
+        {
+            var quote = $"{_options.Quote}".AsSpan();
+            WriteRaw(quote);
+            WriteRaw(containsQuote ? Replace(span, quote, $"{_options.Quote}{_options.Quote}").AsSpan() : span);
+            WriteRaw(quote);
+            return;
+        }
+        Write(_options.Trim ? span.Trim() : span);
+    }
+
+    public static string? Replace(in ReadOnlySpan<char> value, ReadOnlySpan<char> oldValue, string newValue)
+    {
+        StringBuilder? sb = null;
+        int pos;
+        var span = value;
+        while ((pos = span.IndexOfAny(oldValue)) >= 0)
+        {
+            sb ??= new StringBuilder();
+#if NETSTANDARD2_1_OR_GREATER
+            sb.Append(span.Slice(0, pos)).Append(newValue);
+#else
+            sb.Append(span.Slice(0, pos).ToString()).Append(newValue);
+#endif
+            span = span.Slice(pos + 1);
+        }
+
+#if NETSTANDARD2_1_OR_GREATER
+        return sb == null ? span.ToString() : sb.Append(span).ToString();
+#else
+        return sb == null ? span.ToString() : sb.Append(span.ToString()).ToString();
 #endif
     }
 
@@ -172,7 +217,7 @@ public struct CsvSerializerWriter : IDisposable
     public void Write(TimeOnly value) => Write(value.ToString(_options.CultureInfo).AsSpan());
 #endif
 
-#if !NETSTANDARD2_0
+#if NETSTANDARD2_1_OR_GREATER
     [DoesNotReturn]
 #endif
     static void ThrowReachedMaxDepth(int depth)

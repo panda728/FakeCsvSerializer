@@ -1,4 +1,6 @@
-﻿namespace FakeCsvSerializer.Serializers;
+﻿using System;
+
+namespace FakeCsvSerializer.Serializers;
 
 internal class BuiltinSerializers
 {
@@ -6,38 +8,7 @@ internal class BuiltinSerializers
     {
         public void Serialize(ref CsvSerializerWriter writer, string? value, CsvSerializerOptions options)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                writer.WriteEmpty();
-                return;
-            }
-
-            var containsDoubleQuote = value.Contains(options.Quote);
-            if (containsDoubleQuote
-                || value.Contains('\r')
-                || value.Contains('\n')
-                || value.Contains('\t')
-                || value.Contains(',')
-                || value.Contains(' '))
-            {
-                var quote = $"{options.Quote}";
-                writer.WriteRaw(quote.AsSpan());
-                if (options.Trim)
-                    writer.WriteRaw(containsDoubleQuote 
-                        ? value.Replace(quote, $"{quote}{quote}").AsSpan().Trim() 
-                        : value.AsSpan().Trim());
-                else
-                    writer.WriteRaw(containsDoubleQuote ? 
-                        value.Replace(quote, $"{quote}{quote}").AsSpan() : 
-                        value.AsSpan());
-                writer.WriteRaw(quote.AsSpan());
-                return;
-            }
-
-            if (options.Trim)
-                writer.Write(value.AsSpan().Trim());
-            else
-                writer.Write(value.AsSpan());
+            writer.Write(value);
         }
     }
 
@@ -91,7 +62,7 @@ internal class BuiltinSerializers
                 return;
             }
 
-            writer.Write($"{value}".AsSpan());
+            writer.Write($"{value}");
         }
     }
 
