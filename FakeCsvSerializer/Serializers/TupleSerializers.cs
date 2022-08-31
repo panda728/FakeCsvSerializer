@@ -6,17 +6,18 @@ namespace FakeCsvSerializer.Serializers
 {
     public sealed class TupleCsvSerializer<T1> : ICsvSerializer<Tuple<T1>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -29,15 +30,17 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ValueTupleCsvSerializer<T1> : ICsvSerializer<ValueTuple<T1>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.Exit();
         }
@@ -45,19 +48,20 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class TupleCsvSerializer<T1, T2> : ICsvSerializer<Tuple<T1, T2>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, "value2");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, $"{name}2");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1, T2> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -72,17 +76,19 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ValueTupleCsvSerializer<T1, T2> : ICsvSerializer<ValueTuple<T1, T2>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,"value2");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,$"{name}2");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1, T2> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.WriteDelimiter();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
@@ -92,21 +98,22 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class TupleCsvSerializer<T1, T2, T3> : ICsvSerializer<Tuple<T1, T2, T3>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, "value2");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, $"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, "value3");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, $"{name}3");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1, T2, T3> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -123,19 +130,21 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ValueTupleCsvSerializer<T1, T2, T3> : ICsvSerializer<ValueTuple<T1, T2, T3>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,"value2");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,"value3");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,$"{name}2");
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,$"{name}3");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.WriteDelimiter();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
@@ -147,23 +156,24 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class TupleCsvSerializer<T1, T2, T3, T4> : ICsvSerializer<Tuple<T1, T2, T3, T4>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, "value2");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, $"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, "value3");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, $"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, "value4");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, $"{name}4");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -182,21 +192,23 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ValueTupleCsvSerializer<T1, T2, T3, T4> : ICsvSerializer<ValueTuple<T1, T2, T3, T4>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,"value2");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,"value3");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,$"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,"value4");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,$"{name}3");
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,$"{name}4");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.WriteDelimiter();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
@@ -210,25 +222,26 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class TupleCsvSerializer<T1, T2, T3, T4, T5> : ICsvSerializer<Tuple<T1, T2, T3, T4, T5>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, "value2");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, $"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, "value3");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, $"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, "value4");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, $"{name}4");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, "value5");
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, $"{name}5");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -249,23 +262,25 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ValueTupleCsvSerializer<T1, T2, T3, T4, T5> : ICsvSerializer<ValueTuple<T1, T2, T3, T4, T5>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,"value2");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,"value3");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,$"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,"value4");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,$"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,"value5");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,$"{name}4");
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,$"{name}5");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.WriteDelimiter();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
@@ -281,27 +296,28 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class TupleCsvSerializer<T1, T2, T3, T4, T5, T6> : ICsvSerializer<Tuple<T1, T2, T3, T4, T5, T6>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, "value2");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, $"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, "value3");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, $"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, "value4");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, $"{name}4");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, "value5");
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, $"{name}5");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options, "value6");
+            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options, $"{name}6");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -324,25 +340,27 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ValueTupleCsvSerializer<T1, T2, T3, T4, T5, T6> : ICsvSerializer<ValueTuple<T1, T2, T3, T4, T5, T6>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,"value2");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,"value3");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,$"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,"value4");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,$"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,"value5");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,$"{name}4");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options,"value6");
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,$"{name}5");
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options,$"{name}6");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.WriteDelimiter();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
@@ -360,29 +378,30 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class TupleCsvSerializer<T1, T2, T3, T4, T5, T6, T7> : ICsvSerializer<Tuple<T1, T2, T3, T4, T5, T6, T7>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6, T7> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6, T7> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, "value2");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, $"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, "value3");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, $"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, "value4");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, $"{name}4");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, "value5");
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, $"{name}5");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options, "value6");
+            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options, $"{name}6");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options, "value7");
+            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options, $"{name}7");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6, T7> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -407,27 +426,29 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ValueTupleCsvSerializer<T1, T2, T3, T4, T5, T6, T7> : ICsvSerializer<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6, T7> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6, T7> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,"value2");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,"value3");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,$"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,"value4");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,$"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,"value5");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,$"{name}4");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options,"value6");
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,$"{name}5");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options,"value7");
+            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options,$"{name}6");
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options,$"{name}7");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6, T7> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.WriteDelimiter();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);
@@ -448,31 +469,32 @@ namespace FakeCsvSerializer.Serializers
     public sealed class TupleCsvSerializer<T1, T2, T3, T4, T5, T6, T7, TRest> : ICsvSerializer<Tuple<T1, T2, T3, T4, T5, T6, T7, TRest>>
         where TRest : notnull
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6, T7, TRest> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6, T7, TRest> value, CsvSerializerOptions options, string name = "value"){
         
             writer.EnterAndValidate();
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, "value1");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options, name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, "value2");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options, $"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, "value3");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options, $"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, "value4");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options, $"{name}4");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, "value5");
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options, $"{name}5");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options, "value6");
+            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options, $"{name}6");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options, "value7");
+            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options, $"{name}7");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<TRest>().WriteTitle(ref writer, value.Rest, options, "value8");
+            options.GetRequiredSerializer<TRest>().WriteTitle(ref writer, value.Rest, options, $"{name}8");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, Tuple<T1, T2, T3, T4, T5, T6, T7, TRest> value, CsvSerializerOptions options)
         {
             if (value == null) {
+                writer.WriteDelimiter();
                 writer.WriteEmpty();
                 return;
             }
@@ -500,29 +522,31 @@ namespace FakeCsvSerializer.Serializers
     public sealed class ValueTupleCsvSerializer<T1, T2, T3, T4, T5, T6, T7, TRest> : ICsvSerializer<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>
         where TRest : struct
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> value, CsvSerializerOptions options, string name = ""){
+		public void WriteTitle(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> value, CsvSerializerOptions options, string name = "value"){
             writer.EnterAndValidate();
-            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,"value1");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,"value2");
+            options.GetRequiredSerializer<T1>().WriteTitle(ref writer, value.Item1, options,name);
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,"value3");
+            options.GetRequiredSerializer<T2>().WriteTitle(ref writer, value.Item2, options,$"{name}2");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,"value4");
+            options.GetRequiredSerializer<T3>().WriteTitle(ref writer, value.Item3, options,$"{name}3");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,"value5");
+            options.GetRequiredSerializer<T4>().WriteTitle(ref writer, value.Item4, options,$"{name}4");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options,"value6");
+            options.GetRequiredSerializer<T5>().WriteTitle(ref writer, value.Item5, options,$"{name}5");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options,"value7");
+            options.GetRequiredSerializer<T6>().WriteTitle(ref writer, value.Item6, options,$"{name}6");
             writer.WriteDelimiter();
-            options.GetRequiredSerializer<TRest>().WriteTitle(ref writer, value.Rest, options,"value8");
+            options.GetRequiredSerializer<T7>().WriteTitle(ref writer, value.Item7, options,$"{name}7");
+            writer.WriteDelimiter();
+            options.GetRequiredSerializer<TRest>().WriteTitle(ref writer, value.Rest, options,$"{name}8");
             writer.Exit();
         }
 
         public void Serialize(ref CsvSerializerWriter writer, ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> value, CsvSerializerOptions options)
         {
             writer.EnterAndValidate();
+            writer.WriteDelimiter();
             options.GetRequiredSerializer<T1>().Serialize(ref writer, value.Item1, options);
             writer.WriteDelimiter();
             options.GetRequiredSerializer<T2>().Serialize(ref writer, value.Item2, options);

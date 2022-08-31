@@ -40,7 +40,7 @@ internal sealed class CompiledObjectGraphCsvSerializer<T> : ICsvSerializer<T>
 
     public static string[] Names => names;
 
-    public void WriteTitle(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options, string name = "")
+    public void WriteTitle(ref CsvSerializerWriter writer, T value, CsvSerializerOptions options, string name = "value")
     {
         writer.EnterAndValidate();
         writeTitle(ref writer, alternateSerializers, value, options);
