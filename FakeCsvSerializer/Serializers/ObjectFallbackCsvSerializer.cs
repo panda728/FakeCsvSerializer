@@ -14,12 +14,11 @@ internal class ObjectFallbackCsvSerializer : ICsvSerializer<object>
     static readonly ConcurrentDictionary<Type, SerializeDelegate> nongenericSerializers = new();
     static readonly Func<Type, SerializeDelegate> factory = CompileSerializeDelegate;
 
-    public void WriteTitle(ref CsvSerializerWriter writer, object value, CsvSerializerOptions options, string name = "")
+    public void WriteTitle(ref CsvSerializerWriter writer, object value, CsvSerializerOptions options, string name = "value")
     {
         var type = value.GetType();
         if (value == null || type == typeof(object))
         {
-            writer.WriteDelimiter();
             writer.Write(name);
             return;
         }
@@ -32,7 +31,6 @@ internal class ObjectFallbackCsvSerializer : ICsvSerializer<object>
     {
         if (value == null)
         {
-            writer.WriteDelimiter();
             writer.WriteEmpty();
             return;
         }
@@ -40,7 +38,6 @@ internal class ObjectFallbackCsvSerializer : ICsvSerializer<object>
         var type = value.GetType();
         if (type == typeof(object))
         {
-            writer.WriteDelimiter();
             writer.WriteEmpty();
             return;
         }
@@ -59,7 +56,6 @@ internal class ObjectFallbackCsvSerializer : ICsvSerializer<object>
 
         var getRequiredSerializer = typeof(CsvSerializerOptions).GetMethod("GetRequiredSerializer", 1, Type.EmptyTypes)!.MakeGenericMethod(type);
         var writeTitle = typeof(ICsvSerializer<>).MakeGenericType(type).GetMethod("WriteTitle")!;
-        var argEmpty = Expression.Constant("");
         var body = Expression.Call(
             Expression.Call(options, getRequiredSerializer),
             writeTitle,

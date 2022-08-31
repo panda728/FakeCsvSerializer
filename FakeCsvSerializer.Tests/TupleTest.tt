@@ -11,6 +11,8 @@
     string BuildArgParameter(int i) => i.ToString();
     string BuildXmlParameter(int i) => string.Format("\"\"{0}\"\"", i.ToString());
     string BuildArgsParameters(int i) => string.Join(", ", Enumerable.Range(1, i).Select(BuildArgParameter));
+    string BuildTitleParameter(int i) => ((i == 1) ? $"\"\"value\"\"" : $"\"\"value{i}\"\"");
+    string BuildTitleParameters(int i) => string.Join(",", Enumerable.Range(1, i).Select(BuildTitleParameter));
     string BuildXmlParameters(int i) => string.Join(",",Enumerable.Range(1, i).Select(BuildXmlParameter));
     string BuildGetItemProperty(int i) => ((i == 8) ? "Rest" : $"Item{i}");
 #>
@@ -22,6 +24,14 @@ namespace FakeCsvSerializer.Tests;
 
 public partial class TupleSerializersTest
 {
+<# for(var i = 1; i <= MaxTupleCount; i++) { #>
+    [Fact]
+    public void WriteTitle_tuple<#= BuildArgParameter(i) #>()
+    {
+        var t = Tuple.Create(<#= BuildArgsParameters(i) #>);
+        RunWriteTitleTest(t, @"<#= BuildTitleParameters(i) #>", CsvSerializerOptions.Default);
+    }
+<# } #>
 <# for(var i = 1; i <= MaxTupleCount; i++) { #>
     [Fact]
     public void Serializer_tuple<#= BuildArgParameter(i) #>()

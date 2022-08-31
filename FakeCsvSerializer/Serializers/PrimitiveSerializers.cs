@@ -6,7 +6,7 @@ namespace FakeCsvSerializer.Serializers
 {
     public sealed class BooleanCsvSerializer : ICsvSerializer<Boolean>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Boolean value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Boolean value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Boolean value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -14,7 +14,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class ByteCsvSerializer : ICsvSerializer<Byte>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Byte value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Byte value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Byte value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -22,7 +22,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class SByteCsvSerializer : ICsvSerializer<SByte>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, SByte value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, SByte value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, SByte value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -30,7 +30,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class CharCsvSerializer : ICsvSerializer<Char>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Char value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Char value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Char value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -38,7 +38,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class DecimalCsvSerializer : ICsvSerializer<Decimal>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Decimal value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Decimal value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Decimal value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -46,7 +46,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class DoubleCsvSerializer : ICsvSerializer<Double>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Double value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Double value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Double value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -54,7 +54,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class SingleCsvSerializer : ICsvSerializer<Single>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Single value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Single value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Single value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -62,7 +62,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class Int32CsvSerializer : ICsvSerializer<Int32>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Int32 value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Int32 value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Int32 value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -70,7 +70,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class UInt32CsvSerializer : ICsvSerializer<UInt32>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, UInt32 value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, UInt32 value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, UInt32 value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -78,7 +78,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class Int64CsvSerializer : ICsvSerializer<Int64>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Int64 value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Int64 value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Int64 value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -86,7 +86,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class UInt64CsvSerializer : ICsvSerializer<UInt64>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, UInt64 value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, UInt64 value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, UInt64 value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -94,7 +94,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class Int16CsvSerializer : ICsvSerializer<Int16>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, Int16 value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, Int16 value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, Int16 value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);
@@ -102,7 +102,7 @@ namespace FakeCsvSerializer.Serializers
 
     public sealed class UInt16CsvSerializer : ICsvSerializer<UInt16>
     {
-		public void WriteTitle(ref CsvSerializerWriter writer, UInt16 value, CsvSerializerOptions options, string name = "")
+		public void WriteTitle(ref CsvSerializerWriter writer, UInt16 value, CsvSerializerOptions options, string name = "value")
 			=> writer.Write(name);
         public void Serialize(ref CsvSerializerWriter writer, UInt16 value, CsvSerializerOptions options)
             => writer.WritePrimitive(value);

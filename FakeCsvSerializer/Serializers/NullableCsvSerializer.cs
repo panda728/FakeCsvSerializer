@@ -5,7 +5,7 @@ namespace FakeCsvSerializer.Serializers;
 public sealed class NullableCsvSerializer<T> : ICsvSerializer<T?>
     where T : struct
 {
-    public void WriteTitle(ref CsvSerializerWriter writer, T? value, CsvSerializerOptions options, string name = "")
+    public void WriteTitle(ref CsvSerializerWriter writer, T? value, CsvSerializerOptions options, string name = "value")
     {
         if (value == null)
         {

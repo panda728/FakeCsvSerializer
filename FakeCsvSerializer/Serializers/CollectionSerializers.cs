@@ -3,14 +3,14 @@
 public sealed class EnumerableCsvSerializer<TCollection, TElement> : ICsvSerializer<TCollection>
     where TCollection : IEnumerable<TElement>
 {
-    public void WriteTitle(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options, string name = "")
+    public void WriteTitle(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options, string name = "value")
     {
         writer.EnterAndValidate();
         var serializer = options.GetRequiredSerializer<TElement>();
         foreach (var item in value)
         {
             writer.WriteDelimiter();
-            serializer.WriteTitle(ref writer, item, options);
+            serializer.WriteTitle(ref writer, item, options, name);
         }
         writer.Exit();
     }
@@ -19,6 +19,7 @@ public sealed class EnumerableCsvSerializer<TCollection, TElement> : ICsvSeriali
     {
         if (value == null)
         {
+            writer.WriteDelimiter();
             writer.WriteEmpty();
             return;
         }
@@ -37,7 +38,7 @@ public sealed class EnumerableCsvSerializer<TCollection, TElement> : ICsvSeriali
 public sealed class DictionaryCsvSerializer<TDictionary, TKey, TValue> : ICsvSerializer<TDictionary>
     where TDictionary : IDictionary<TKey, TValue>
 {
-    public void WriteTitle(ref CsvSerializerWriter writer, TDictionary value, CsvSerializerOptions options, string name = "")
+    public void WriteTitle(ref CsvSerializerWriter writer, TDictionary value, CsvSerializerOptions options, string name = "value")
     {
         var keySerializer = options.GetRequiredSerializer<TKey>();
         var valueSerializer = options.GetRequiredSerializer<TValue>();
@@ -45,9 +46,9 @@ public sealed class DictionaryCsvSerializer<TDictionary, TKey, TValue> : ICsvSer
         foreach (var item in value)
         {
             writer.WriteDelimiter();
-            keySerializer.WriteTitle(ref writer, item.Key, options, "Key");
+            keySerializer.WriteTitle(ref writer, item.Key, options, "key");
             writer.WriteDelimiter();
-            valueSerializer.WriteTitle(ref writer, item.Value, options, "Value");
+            valueSerializer.WriteTitle(ref writer, item.Value, options, name);
         }
         writer.Exit();
     }
@@ -56,6 +57,7 @@ public sealed class DictionaryCsvSerializer<TDictionary, TKey, TValue> : ICsvSer
     {
         if (value == null)
         {
+            writer.WriteDelimiter();
             writer.WriteEmpty();
             return;
         }
@@ -85,7 +87,7 @@ public sealed class DictionaryCsvSerializer<TDictionary, TKey, TValue> : ICsvSer
 public sealed class EnumerableKeyValuePairCsvSerializer<TCollection, TKey, TValue> : ICsvSerializer<TCollection>
     where TCollection : IEnumerable<KeyValuePair<TKey, TValue>>
 {
-    public void WriteTitle(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options, string name = "")
+    public void WriteTitle(ref CsvSerializerWriter writer, TCollection value, CsvSerializerOptions options, string name = "value")
     {
         var keySerializer = options.GetRequiredSerializer<TKey>();
         var valueSerializer = options.GetRequiredSerializer<TValue>();
@@ -93,9 +95,9 @@ public sealed class EnumerableKeyValuePairCsvSerializer<TCollection, TKey, TValu
         foreach (var item in value)
         {
             writer.WriteDelimiter();
-            keySerializer.WriteTitle(ref writer, item.Key, options, "Key");
+            keySerializer.WriteTitle(ref writer, item.Key, options, "key");
             writer.WriteDelimiter();
-            valueSerializer.WriteTitle(ref writer, item.Value, options, "Value");
+            valueSerializer.WriteTitle(ref writer, item.Value, options, name);
         }
         writer.Exit();
     }
@@ -104,6 +106,7 @@ public sealed class EnumerableKeyValuePairCsvSerializer<TCollection, TKey, TValu
     {
         if (value == null)
         {
+            writer.WriteDelimiter();
             writer.WriteEmpty();
             return;
         }

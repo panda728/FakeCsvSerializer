@@ -7,6 +7,54 @@ namespace FakeCsvSerializer.Tests;
 public partial class TupleSerializersTest
 {
     [Fact]
+    public void WriteTitle_tuple1()
+    {
+        var t = Tuple.Create(1);
+        RunWriteTitleTest(t, @"""value""", CsvSerializerOptions.Default);
+    }
+    [Fact]
+    public void WriteTitle_tuple2()
+    {
+        var t = Tuple.Create(1, 2);
+        RunWriteTitleTest(t, @"""value"",""value2""", CsvSerializerOptions.Default);
+    }
+    [Fact]
+    public void WriteTitle_tuple3()
+    {
+        var t = Tuple.Create(1, 2, 3);
+        RunWriteTitleTest(t, @"""value"",""value2"",""value3""", CsvSerializerOptions.Default);
+    }
+    [Fact]
+    public void WriteTitle_tuple4()
+    {
+        var t = Tuple.Create(1, 2, 3, 4);
+        RunWriteTitleTest(t, @"""value"",""value2"",""value3"",""value4""", CsvSerializerOptions.Default);
+    }
+    [Fact]
+    public void WriteTitle_tuple5()
+    {
+        var t = Tuple.Create(1, 2, 3, 4, 5);
+        RunWriteTitleTest(t, @"""value"",""value2"",""value3"",""value4"",""value5""", CsvSerializerOptions.Default);
+    }
+    [Fact]
+    public void WriteTitle_tuple6()
+    {
+        var t = Tuple.Create(1, 2, 3, 4, 5, 6);
+        RunWriteTitleTest(t, @"""value"",""value2"",""value3"",""value4"",""value5"",""value6""", CsvSerializerOptions.Default);
+    }
+    [Fact]
+    public void WriteTitle_tuple7()
+    {
+        var t = Tuple.Create(1, 2, 3, 4, 5, 6, 7);
+        RunWriteTitleTest(t, @"""value"",""value2"",""value3"",""value4"",""value5"",""value6"",""value7""", CsvSerializerOptions.Default);
+    }
+    [Fact]
+    public void WriteTitle_tuple8()
+    {
+        var t = Tuple.Create(1, 2, 3, 4, 5, 6, 7, 8);
+        RunWriteTitleTest(t, @"""value"",""value2"",""value3"",""value4"",""value5"",""value6"",""value7"",""value8""", CsvSerializerOptions.Default);
+    }
+    [Fact]
     public void Serializer_tuple1()
     {
         var t = Tuple.Create(1);
