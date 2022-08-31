@@ -29,7 +29,7 @@ CsvSerializer.ToFile(Users, "test.csv", CsvSerializerOptions.Default);
 
 ## Examples
 
-If you pass an object, it will be converted to an CSV file.
+- If you pass an object, it will be converted to an CSV file.
 ~~~
 CsvSerializer.ToFile(new string[] { "test", "test2" }, @"c:\test\test.csv", CsvSerializerOptions.Default);
 ~~~
@@ -39,8 +39,9 @@ test.csv:
 "test"
 "test2"
 ~~~
+---
 
-Passing a class expands the property into a column.
+- Passing a class expands the property into a column.
 ~~~
 public class Portal
 {
@@ -58,7 +59,15 @@ var potals = new Portal[] {
 CsvSerializer.ToFile(potals, @"c:\test\potals.csv", CsvSerializerOptions.Default);
 ~~~
 
-By setting attributes on the class, you can specify the name of the title or change the order of the columns.
+potals.csv:
+~~~
+"Portal1","panda728","8"
+"Portal2","panda728","1"
+"Portal3","panda728","2"
+~~~
+---
+
+- By setting attributes on the class, you can specify the name of the title or change the order of the columns.
 ~~~
 public class PortalEx
 {
@@ -86,8 +95,9 @@ potalsEx.csv:
 "panda728","1","Portal2"
 "panda728","2","Portal3"
 ~~~
+---
 
-Options can be set to display a title line.
+- Options can be set to display a title line.
 ~~~
 var newConfig = CsvSerializerOptions.Default with
 {
@@ -109,7 +119,7 @@ potalsOp.csv:
 "Portal2","panda728","1"
 "Portal3","panda728","2"
 ~~~
-
+---
 
 ## Note
 For the method of retrieving values from IEnumerable\<T\>, Cysharp's WebSerializer method is used.
