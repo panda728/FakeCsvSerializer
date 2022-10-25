@@ -20,7 +20,7 @@ internal sealed class CompiledObjectGraphCsvSerializer<T> : ICsvSerializer<T>
     {
         isReferenceType = !typeof(T).IsValueType;
 
-        var props = typeof(T).GetProperties();
+        var props = typeof(T).GetProperties().Where(p => p.GetIndexParameters().Length == 0);
         var fields = typeof(T).GetFields();
         var members = props.Cast<MemberInfo>().Concat(fields)
             .Where(x => x.GetCustomAttribute<IgnoreCsvSerializeAttribute>() == null)
